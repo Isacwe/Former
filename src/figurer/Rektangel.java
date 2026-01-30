@@ -5,10 +5,14 @@ import java.awt.Graphics;
 public class Rektangel extends Figurer{
     private int bredd;
     private int höjd;
+    private final int startX;
+    private final int startY;
     public Rektangel(int x, int y, int b, int h){
         super(x, y);
         b = bredd;
         h = höjd;
+        startX = x;
+        startY = y;
     }
     public void setBredd(int b){
         bredd = b;
@@ -23,6 +27,10 @@ public class Rektangel extends Figurer{
     @Override
     public void rita(Graphics g){
         g.setColor(färg);
-        g.fillRect(super.positionX, super.positionY, bredd, höjd);
+        g.fillRect(startX, startY, bredd, höjd);
+    }
+    @Override
+    public String whatAmI(){
+        return "Rektangel";
     }
 }

@@ -24,8 +24,13 @@ public class Triangel extends Figurer{
     }
     @Override
     public void rita(Graphics g){
-        
         g.setColor(färg);
-        g.fillPolygon(new int[] {10, 20, 30}, new int[] {100, 20, 100}, 3);
+        int[] xPoints = {positionX, (positionX + bredd) /2, positionX + bredd};
+        int[] yPoints = {positionY, positionY + höjd, positionY};
+        g.fillPolygon(xPoints, yPoints, 3);
+    }
+    @Override
+    public String whatAmI(){
+        return "Triangel";
     }
 }

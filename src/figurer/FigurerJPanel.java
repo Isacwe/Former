@@ -1,11 +1,9 @@
-package figurer;import java.awt.Color;
+package figurer;
 import java.awt.Graphics;
 import java.util.ArrayList;
 public class FigurerJPanel extends javax.swing.JPanel {
     ArrayList<Figurer> figurLista = new ArrayList<>();
     private String figur = "";
-    public int x;
-    public int y;
     public int width;
     public int height;
     public FigurerJPanel() {
@@ -106,74 +104,41 @@ public class FigurerJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRensaActionPerformed
     private void rbtnCirkelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnCirkelActionPerformed
         figur = "Cirkel";
-        /*
-        int cx = x;
-        int cy = y;
-        Cirkel c = new Cirkel (cx, cy, width);
-        figurLista.add(c); */
     }//GEN-LAST:event_rbtnCirkelActionPerformed
     private void rbtnRektangelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnRektangelActionPerformed
         figur = "Rektangel";
-        /*
-        width = (int) (Math.random() * 10) + 20;
-        height = (int) (Math.random() * 10) + 20;
-        int rx = x - (width / 2);
-        int ry = y - (height / 2);
-        Rektangel r = new Rektangel (rx, ry, width, height);
-        figurLista.add(r);*/
-        repaint();
     }//GEN-LAST:event_rbtnRektangelActionPerformed
     private void rbtnTriangelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnTriangelActionPerformed
         figur = "Triangel";
-        repaint();
     }//GEN-LAST:event_rbtnTriangelActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        x = evt.getX();
-        y = evt.getY();
+        int x = evt.getX();
+        int y = evt.getY();
+        int b = (int) (Math.random() * 10) + 20;
+        int h = (int) (Math.random() * 10) + 20;
+        if(this.rbtnTriangel.isSelected()){
+            Triangel t = new Triangel(y+(h/2), x-(b/2), b, h);
+            figurLista.add(t);
+        }
+        else if(this.rbtnRektangel.isSelected()){
+            Rektangel r = new Rektangel(y-(h/2), x-(b/2), b, h);
+            figurLista.add(r);
+            System.out.println("Rektangel");
+        }
+        else if(this.rbtnCirkel.isSelected()){
+            Cirkel c = new Cirkel(y-(h/2), x-(h/2), h);
+            figurLista.add(c);
+        }
         repaint();
     }//GEN-LAST:event_formMouseClicked
     @Override
     protected void paintComponent(Graphics g){
-        if (figur.equals("Rensa")) {
-            super.paintComponent(g);
-            if (this.rbtnRektangel.isSelected()) figur = "Rektangel";
-            if (this.rbtnTriangel.isSelected()) figur = "Triangel";
-            if (this.rbtnCirkel.isSelected()) figur = "Cirkel";
-            return;
-        }
-        for (int i = 0; i < figurLista.size(); i++) {
+        super.paintComponent(g);
+        for(int i = 0; i < figurLista.size() ; i++){
             figurLista.get(i).rita(g);
         }
-        int R = (int)(Math.random()*256);
-        int G = (int)(Math.random()*256);
-        int B = (int)(Math.random()*256);
-        Color color = new Color(R, G, B);
-        g.setColor(color);
-        width = (int) (Math.random() * 10) + 20;
-        height = (int) (Math.random() * 10) + 20;
-        if (this.rbtnRektangel.isSelected()) {
-            int rx = x - (width / 2);
-            int ry = y - (height / 2);
-            Rektangel r = new Rektangel (rx, ry, width, height);
-            figurLista.add(r);
-        }
-        else if (this.rbtnTriangel.isSelected()) {
-            int triHeight = (int) (width * 1.5);
-            int x_start = x;
-            int y_start = y - (triHeight/2);
-            int xPoints[] = {x, x - (width/2) , x + (width/2)};
-            int yPoints[] = {y_start, y_start + triHeight, y_start + triHeight};
-            Triangel t = new Triangel (x, y, width, triHeight);
-            g.fillPolygon
-            figurLista.add(t);
-        }
-        else if (this.rbtnCirkel.isSelected()) {
-            int cx = x - (width/2);
-            int cy = y - (width/2);
-            Cirkel c = new Cirkel (cx, cy, width);
-            figurLista.add(c);
-        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

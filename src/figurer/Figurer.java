@@ -1,7 +1,7 @@
 package figurer;
 import java.awt.Color;
 import java.awt.Graphics;
-public abstract class Figurer {
+public abstract class Figurer{
     protected int positionX;
     protected int positionY;
     protected String form;
@@ -24,10 +24,10 @@ public abstract class Figurer {
     public int getY(){
         return positionY;
     }
+    public abstract String whatAmI();
+    
     public abstract double räknaArea();
 
-    void rita(Graphics g) {
-    
-    }
+    public abstract void rita(Graphics g);
     
 }
