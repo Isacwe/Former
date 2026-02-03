@@ -38,7 +38,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="jPanelKnapp" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="259" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="265" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -58,6 +58,10 @@
                   <Component id="rbtnTriangel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnRensa" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnHämta" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnSpara" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -71,8 +75,10 @@
                       <Component id="rbtnCirkel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="rbtnRektangel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="rbtnTriangel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnHämta" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSpara" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -117,6 +123,22 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtnTriangelActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnH&#xe4;mta">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="H&#xe4;mta"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnH&#xe4;mtaActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnSpara">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Spara"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSparaActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -1,7 +1,8 @@
 package figurer;
 import java.awt.Color;
 import java.awt.Graphics;
-public abstract class Figurer{
+import java.io.Serializable;
+public abstract class Figurer implements Serializable{
     protected int positionX;
     protected int positionY;
     protected String form;

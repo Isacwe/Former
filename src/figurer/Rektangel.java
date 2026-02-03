@@ -1,5 +1,5 @@
 package figurer;
-
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Rektangel extends Figurer{
@@ -9,10 +9,11 @@ public class Rektangel extends Figurer{
     private final int startY;
     public Rektangel(int x, int y, int b, int h){
         super(x, y);
-        b = bredd;
-        h = höjd;
-        startX = x;
-        startY = y;
+        bredd = b;
+        höjd = h;
+        startX = x -(b/2);
+        startY = y - (h/2);
+        färg = new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
     }
     public void setBredd(int b){
         bredd = b;
@@ -27,7 +28,8 @@ public class Rektangel extends Figurer{
     @Override
     public void rita(Graphics g){
         g.setColor(färg);
-        g.fillRect(startX, startY, bredd, höjd);
+        g.fillRect(startY, startX, höjd, bredd);
+        System.out.println(startX + " " + startY);
     }
     @Override
     public String whatAmI(){

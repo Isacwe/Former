@@ -1,15 +1,20 @@
 package figurer;
-
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Triangel extends Figurer{
     private int bredd;
     private int höjd;
+    private final int startX;
+    private final int startY;
 
     public Triangel(int x, int y, int b, int h){
         super(x, y);
-        b = bredd;
-        h = höjd;
+        bredd = b;
+        höjd = h;
+        startX = x -(b/2);
+        startY = y - (h/2);
+        färg = new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
         
     }
     public void setBredd(int b){
@@ -25,9 +30,9 @@ public class Triangel extends Figurer{
     @Override
     public void rita(Graphics g){
         g.setColor(färg);
-        int[] xPoints = {positionX, (positionX + bredd) /2, positionX + bredd};
-        int[] yPoints = {positionY, positionY + höjd, positionY};
-        g.fillPolygon(xPoints, yPoints, 3);
+        int[] xPoints = {startX, startX + bredd / 2, startX };
+        int[] yPoints = {startY, startY + höjd, startY + höjd};
+        g.fillPolygon(yPoints, xPoints, 3);
     }
     @Override
     public String whatAmI(){
