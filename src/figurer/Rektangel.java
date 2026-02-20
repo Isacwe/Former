@@ -29,7 +29,6 @@ public class Rektangel extends Figurer{
     public void rita(Graphics g){
         g.setColor(färg);
         g.fillRect(startY, startX, höjd, bredd);
-        System.out.println(startX + " " + startY);
     }
     @Override
     public String whatAmI(){

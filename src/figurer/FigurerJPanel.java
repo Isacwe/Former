@@ -1,11 +1,13 @@
 package figurer;
 import java.awt.Graphics;
 import java.util.ArrayList;
-public class FigurerJPanel extends javax.swing.JPanel {
+public class FigurerJPanel extends javax.swing.JPanel implements Runnable{
+    private volatile Thread trad;
     ArrayList<Figurer> figurLista = new ArrayList<>();
     Filemanager fmgr = new Filemanager();
     public int width;
     public int height;
+    public int x;
     public FigurerJPanel() {
         initComponents();
     }
@@ -21,6 +23,7 @@ public class FigurerJPanel extends javax.swing.JPanel {
         rbtnTriangel = new javax.swing.JRadioButton();
         btnHämta = new javax.swing.JButton();
         btnSpara = new javax.swing.JButton();
+        btnStartStop = new javax.swing.JToggleButton();
 
         setMinimumSize(new java.awt.Dimension(0, 0));
         setPreferredSize(new java.awt.Dimension(400, 300));
@@ -75,6 +78,13 @@ public class FigurerJPanel extends javax.swing.JPanel {
             }
         });
 
+        btnStartStop.setText("Start");
+        btnStartStop.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                btnStartStopItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelKnappLayout = new javax.swing.GroupLayout(jPanelKnapp);
         jPanelKnapp.setLayout(jPanelKnappLayout);
         jPanelKnappLayout.setHorizontalGroup(
@@ -92,6 +102,8 @@ public class FigurerJPanel extends javax.swing.JPanel {
                 .addComponent(btnHämta)
                 .addGap(18, 18, 18)
                 .addComponent(btnSpara)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnStartStop)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelKnappLayout.setVerticalGroup(
@@ -104,7 +116,8 @@ public class FigurerJPanel extends javax.swing.JPanel {
                     .addComponent(rbtnRektangel)
                     .addComponent(rbtnTriangel)
                     .addComponent(btnHämta)
-                    .addComponent(btnSpara))
+                    .addComponent(btnSpara)
+                    .addComponent(btnStartStop))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -112,7 +125,9 @@ public class FigurerJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,13 +156,12 @@ public class FigurerJPanel extends javax.swing.JPanel {
         int b = (int) (Math.random() * 100) + 20;
         int h = (int) (Math.random() * 100) + 20;
         if(this.rbtnTriangel.isSelected()){
-            Triangel t = new Triangel(y+(h/2), x-(b/2), b, h);
+            Triangel t = new Triangel(x, y ,b, h);
             figurLista.add(t);
         }
         else if(this.rbtnRektangel.isSelected()){
             Rektangel r = new Rektangel(y, x, b, h);
             figurLista.add(r);
-            System.out.println("Rektangel");
         }
         else if(this.rbtnCirkel.isSelected()){
             Cirkel c = new Cirkel(y-(h/2), x-(h/2), h);
@@ -169,6 +183,17 @@ public class FigurerJPanel extends javax.swing.JPanel {
     private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
         fmgr.saveToFile(figurLista);
     }//GEN-LAST:event_btnSparaActionPerformed
+
+    private void btnStartStopItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_btnStartStopItemStateChanged
+        if (evt.getStateChange() == 1) {
+            this.btnStartStop.setText("Stopp");
+            this.start();
+        } else{
+            this.btnStartStop.setText("Start");
+            this.stop();
+        }
+    }//GEN-LAST:event_btnStartStopItemStateChanged
+    
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -182,6 +207,7 @@ public class FigurerJPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnHämta;
     private javax.swing.JButton btnRensa;
     private javax.swing.JButton btnSpara;
+    private javax.swing.JToggleButton btnStartStop;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel jPanelKnapp;
     private javax.swing.JRadioButton rbtnCirkel;
@@ -189,4 +215,33 @@ public class FigurerJPanel extends javax.swing.JPanel {
     private javax.swing.JRadioButton rbtnTriangel;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public void run() {
+        Thread thisThread = Thread.currentThread();
+        while(trad == thisThread){
+        for(int i = 0; i < figurLista.size() ; i++){
+            x = figurLista.get(i).getX();
+            x -= 1;
+            figurLista.get(i).setX(x);
+            System.out.println(x);
+        }
+        repaint();
+        try{
+                Thread.sleep(30);
+            } catch(InterruptedException e){
+            }
+        }
+    }
+    public void stop(){
+        if(trad != null){
+            System.out.println("Stop");
+            trad = null;
+        }
+    }
+    public void start(){
+        if(trad == null){
+            trad = new Thread(this);
+            trad.start();
+        }
+    }
 }

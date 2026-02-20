@@ -13,7 +13,7 @@ public class Triangel extends Figurer{
         bredd = b;
         höjd = h;
         startX = x -(b/2);
-        startY = y - (h/2);
+        startY = y + (h/2);
         färg = new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
         
     }
@@ -30,9 +30,9 @@ public class Triangel extends Figurer{
     @Override
     public void rita(Graphics g){
         g.setColor(färg);
-        int[] xPoints = {startX, startX + bredd / 2, startX };
-        int[] yPoints = {startY, startY + höjd, startY + höjd};
-        g.fillPolygon(yPoints, xPoints, 3);
+        int[] xPoints = {startX, startX + bredd / 2, startX + bredd};
+        int[] yPoints = {startY, startY - höjd, startY};
+        g.fillPolygon(xPoints, yPoints, 3);
     }
     @Override
     public String whatAmI(){

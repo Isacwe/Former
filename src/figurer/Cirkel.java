@@ -14,6 +14,10 @@ public class Cirkel extends Figurer{
         this.radie = r;
         färg = new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
     }
+    @Override
+    public int getX(){
+        return startX;
+    }
     public void setRadie(int r){
         radie = r;
     }

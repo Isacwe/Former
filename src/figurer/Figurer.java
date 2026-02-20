@@ -25,6 +25,9 @@ public abstract class Figurer implements Serializable{
     public int getY(){
         return positionY;
     }
+    public void setX(int x){
+        positionX = x;
+    }
     public abstract String whatAmI();
     
     public abstract double räknaArea();
