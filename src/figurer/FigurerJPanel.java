@@ -8,10 +8,37 @@ public class FigurerJPanel extends javax.swing.JPanel implements Runnable{
     public int width;
     public int height;
     public int x;
+    private javax.swing.Timer animeringsTimer;
+    private boolean isMoving = false;
     public FigurerJPanel() {
         initComponents();
+
+
+        
+          
+          //Skapar animeringen
+    animeringsTimer = new javax.swing.Timer(16, new java.awt.event.ActionListener() {
+        //Timer med 16 som värde, påverkar hastigheten
+    @Override
+    public void actionPerformed(java.awt.event.ActionEvent e) {
+        for (Figurer f : figurLista) { //Loop for arraylisten
+            f.move(0, 0); //Flyttar på formerna, byter ut nollorna sen
+
+            if (f.getX() > getWidth()) { //Vänder håll när den nuddar höger kanten
+                f.flipDirection(); 
+            }
+            else if (f.getX() < 0) { //Vänder håll om den nuddar vänster kanten
+                f.flipDirection();
+            }
+        }
+        repaint();
+    }
+});
+        
+
     }
     @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -84,6 +111,11 @@ public class FigurerJPanel extends javax.swing.JPanel implements Runnable{
                 btnStartStopItemStateChanged(evt);
             }
         });
+        btnStartStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartStopActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelKnappLayout = new javax.swing.GroupLayout(jPanelKnapp);
         jPanelKnapp.setLayout(jPanelKnappLayout);
@@ -137,6 +169,7 @@ public class FigurerJPanel extends javax.swing.JPanel implements Runnable{
         );
     }// </editor-fold>//GEN-END:initComponents
     private void btnRensaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRensaActionPerformed
+        //Tömmer former listan
         this.figurLista.clear();
         repaint();
     }//GEN-LAST:event_btnRensaActionPerformed
@@ -151,26 +184,30 @@ public class FigurerJPanel extends javax.swing.JPanel implements Runnable{
     }//GEN-LAST:event_rbtnTriangelActionPerformed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        //variablar för muspositionen
         int x = evt.getX();
         int y = evt.getY();
+        //Slumpar fram bas och höjd
         int b = (int) (Math.random() * 100) + 20;
         int h = (int) (Math.random() * 100) + 20;
+        //Kollar vilken form som är vald och lägger därefter till den formen i listan
         if(this.rbtnTriangel.isSelected()){
-            Triangel t = new Triangel(x, y ,b, h);
+            Triangel t = new Triangel(x, y, b, h);
             figurLista.add(t);
         }
         else if(this.rbtnRektangel.isSelected()){
-            Rektangel r = new Rektangel(y, x, b, h);
+            Rektangel r = new Rektangel(x, y, b, h);
             figurLista.add(r);
         }
         else if(this.rbtnCirkel.isSelected()){
-            Cirkel c = new Cirkel(y-(h/2), x-(h/2), h);
+            Cirkel c = new Cirkel(x, y, h);
             figurLista.add(c);
         }
         repaint();
     }//GEN-LAST:event_formMouseClicked
 
     private void btnHämtaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHämtaActionPerformed
+    //Hämtar sparade former
         ArrayList<Figurer> temp = fmgr.readFromFile();
     if (temp != null) {
         figurLista = temp;
@@ -181,19 +218,27 @@ public class FigurerJPanel extends javax.swing.JPanel implements Runnable{
     }//GEN-LAST:event_btnHämtaActionPerformed
 
     private void btnSparaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSparaActionPerformed
+        //sparar former
         fmgr.saveToFile(figurLista);
     }//GEN-LAST:event_btnSparaActionPerformed
 
     private void btnStartStopItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_btnStartStopItemStateChanged
-        if (evt.getStateChange() == 1) {
+        //För att veta om den ska animera formerna eller inte
+        if (isMoving == false) {
+            animeringsTimer.start();
+            isMoving = true;
             this.btnStartStop.setText("Stopp");
-            this.start();
-        } else{
+        } else {
+            animeringsTimer.stop();
+            isMoving = false;
             this.btnStartStop.setText("Start");
-            this.stop();
         }
     }//GEN-LAST:event_btnStartStopItemStateChanged
-    
+
+    private void btnStartStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartStopActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnStartStopActionPerformed
+    //Ritar om formerna
     @Override
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -215,33 +260,14 @@ public class FigurerJPanel extends javax.swing.JPanel implements Runnable{
     private javax.swing.JRadioButton rbtnTriangel;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Krävs för att programmet ska köras men gör inget
+     */
     @Override
     public void run() {
-        Thread thisThread = Thread.currentThread();
-        while(trad == thisThread){
-        for(int i = 0; i < figurLista.size() ; i++){
-            x = figurLista.get(i).getX();
-            x -= 1;
-            figurLista.get(i).setX(x);
-            System.out.println(x);
-        }
-        repaint();
-        try{
-                Thread.sleep(30);
-            } catch(InterruptedException e){
-            }
-        }
     }
-    public void stop(){
-        if(trad != null){
-            System.out.println("Stop");
-            trad = null;
-        }
+    public void stop(){   
     }
     public void start(){
-        if(trad == null){
-            trad = new Thread(this);
-            trad.start();
-        }
     }
 }
