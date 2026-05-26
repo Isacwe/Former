@@ -14,7 +14,7 @@ public abstract class Figurer implements Serializable{
     protected int fart = 5;
     /**
      * 
-     * @param x start prositionen på x axeln
+     * @param x start positionen på x axeln
      * @param y start postionen på y axeln
      */
     public Figurer( int x, int y){ 
